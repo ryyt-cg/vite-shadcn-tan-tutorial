@@ -285,8 +285,7 @@ function App() {
 
 export default App
 ```
-Try
-http://localhost:5173
-http://localhost:5173/about
-
+Try<br/>
+http://localhost:5173<br/>
+http://localhost:5173/about<br/>
 You would see the home page and about page.
