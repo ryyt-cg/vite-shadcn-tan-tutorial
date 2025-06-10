@@ -1,6 +1,8 @@
 # Vite React Tutorial
+
 This tutorial will guide you through setting up a React application from ground up.
 It will cover the following technologies:
+
 - Vite
 - React
 - TypeScript
@@ -9,24 +11,29 @@ It will cover the following technologies:
 - TanStack Router
 - TanStack Query
 
-
 ## Lesson 1: Setting Up Vite with React and TypeScript
+
 ```bash
 pnpm create vite@latest vite-shadcn-tan-tutorial --template react-ts
 cd vite-shadcn-tan-tutorial
 pnpm install
 pnpm run dev
 ```
+
 [Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
 
 ```bash
 pnpm add tailwindcss @tailwindcss/vite
 ```
+
 Replace everything in src/index.css with the following:
+
 ```css
 @import "tailwindcss";
 ```
+
 Edit tsconfig.json file
+
 ```json
 {
   "files": [],
@@ -48,6 +55,7 @@ Edit tsconfig.json file
 ```
 
 Edit tsconfig.app.json file
+
 ```json
 {
   "compilerOptions": {
@@ -70,6 +78,7 @@ pnpm add -D @types/node
 ```
 
 Edit vite.config.ts
+
 ```typescript
 import path from "path"
 import tailwindcss from "@tailwindcss/vite"
@@ -88,6 +97,7 @@ export default defineConfig({
 ```
 
 Edit src/app.tsx
+
 ```tsx
 import { Button } from "@/components/ui/button"
 
@@ -101,9 +111,12 @@ function App() {
 
 export default App
 ```
+
 Run the development server
+
 ```bash
 pnpm run dev
 ```
+
 You should see a "Click me" button styled with Shadcn/UI.
 ![shadcb-button.png](docs/shadcb-button.png)
