@@ -7,10 +7,10 @@ export const Route = createFileRoute('/(authenticated)')({
 
 function RouteComponent() {
   return (
-    <>
-      {/*<Layout>*/}
-        <Outlet />
-      {/*</Layout>*/}
-    </>
+      <>
+        {/*<Layout>*/}
+        <Outlet/>
+        {/*</Layout>*/}
+      </>
   );
 }

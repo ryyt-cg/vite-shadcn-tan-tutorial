@@ -1,6 +1,8 @@
 # Vite React Tutorial
+
 This tutorial will guide you through setting up a React application from ground up.
 It will cover the following technologies:
+
 - Vite
 - React
 - TypeScript
@@ -9,24 +11,29 @@ It will cover the following technologies:
 - TanStack Router
 - TanStack Query
 
-
 ## Lesson 1: Setting Up Vite with React and TypeScript
+
 ```bash
 pnpm create vite@latest vite-shadcn-tan-tutorial --template react-ts
 cd vite-shadcn-tan-tutorial
 pnpm install
 pnpm run dev
 ```
+
 [Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
 
 ```bash
 pnpm add tailwindcss @tailwindcss/vite
 ```
+
 Replace everything in src/index.css with the following:
+
 ```css
 @import "tailwindcss";
 ```
+
 Edit tsconfig.json file
+
 ```json
 {
   "files": [],
@@ -48,6 +55,7 @@ Edit tsconfig.json file
 ```
 
 Edit tsconfig.app.json file
+
 ```json
 {
   "compilerOptions": {
@@ -70,6 +78,7 @@ pnpm add -D @types/node
 ```
 
 Edit vite.config.ts
+
 ```typescript
 import path from "path"
 import tailwindcss from "@tailwindcss/vite"
@@ -88,6 +97,7 @@ export default defineConfig({
 ```
 
 Edit src/app.tsx
+
 ```tsx
 import { Button } from "@/components/ui/button"
 
@@ -101,16 +111,20 @@ function App() {
 
 export default App
 ```
+
 Run the development server
+
 ```bash
 pnpm run dev
 ```
+
 You should see a button styled with Shadcn/UI.
 ![shadcb-button.png](docs/shadcb-button.png)
 
-
 ## Lesson 2: [Adding TanStack Router](https://tanstack.com/router/latest)
+
 Install TanStack Router
+
 ```bash
 pnpm add @tanstack/react-router
 pnpm add -D @tanstack/react-router-devtools
@@ -118,6 +132,7 @@ pnpm add -D @tanstack/router-plugin
 ```
 
 Configure the Vite Plugin
+
 ```tsx
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -134,7 +149,9 @@ export default defineConfig({
   ],
 })
 ```
+
 Create the following directories and files:
+
 ```text
 src/features/about/index.tsx
 src/features/home/index.tsx
@@ -168,10 +185,13 @@ Put routes under (authenticated) directory
 ---
 
 Add Shadcn/UI sonner
+
 ```bash
  pnpm dlx shadcn@latest add sonner
 ```
+
 src/features/about/index.tsx
+
 ```tsx
 const About = () => {
     return (
@@ -185,6 +205,7 @@ export default About;
 ````
 
 src/features/home/index.tsx
+
 ```tsx
 const Home = () => {
     return (
@@ -198,6 +219,7 @@ export default Home;
 ````
 
 src/routes/__root.tsx
+
 ```tsx
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
@@ -219,7 +241,9 @@ export const Route = createRootRoute({
     ),
 })
 ```
+
 src/routes/(authenticated)/route.tsx
+
 ```tsx
 import {createFileRoute, Outlet} from "@tanstack/react-router";
 // import Layout from "@/components/layout/layout.tsx";
@@ -240,15 +264,18 @@ function RouteComponent() {
 ````
 
 src/routes/(authenticated)/index.tsx
+
 ```tsx
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
 import Home from '@/features/home'
 
 export const Route = createFileRoute('/(authenticated)/')({
-    component: Home,
+  component: Home,
 })
 ```
+
 src/routes/(authenticated)/about/index.tsx`
+
 ```tsx
 import { createFileRoute } from '@tanstack/react-router'
 import About from '@/features/about'
@@ -259,6 +286,7 @@ export const Route = createFileRoute('/(authenticated)/about/')({
 ````
 
 Replace all content in app.tsx with the following:
+
 ```tsx
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
@@ -285,6 +313,7 @@ function App() {
 
 export default App
 ```
+
 Try<br/>
 http://localhost:5173<br/>
 http://localhost:5173/about<br/>

@@ -10,10 +10,10 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as authenticatedRouteImport } from './routes/(authenticated)/route'
-import { Route as authenticatedIndexImport } from './routes/(authenticated)/index'
-import { Route as authenticatedAboutIndexImport } from './routes/(authenticated)/about/index'
+import {Route as rootRoute} from './routes/__root'
+import {Route as authenticatedRouteImport} from './routes/(authenticated)/route'
+import {Route as authenticatedIndexImport} from './routes/(authenticated)/index'
+import {Route as authenticatedAboutIndexImport} from './routes/(authenticated)/about/index'
 
 // Create/Update Routes
 
@@ -75,7 +75,7 @@ const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
 }
 
 const authenticatedRouteRouteWithChildren =
-  authenticatedRouteRoute._addFileChildren(authenticatedRouteRouteChildren)
+    authenticatedRouteRoute._addFileChildren(authenticatedRouteRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof authenticatedIndexRoute
@@ -100,10 +100,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/about'
   id:
-    | '__root__'
-    | '/(authenticated)'
-    | '/(authenticated)/'
-    | '/(authenticated)/about/'
+      | '__root__'
+      | '/(authenticated)'
+      | '/(authenticated)/'
+      | '/(authenticated)/about/'
   fileRoutesById: FileRoutesById
 }
 
@@ -116,8 +116,8 @@ const rootRouteChildren: RootRouteChildren = {
 }
 
 export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    ._addFileChildren(rootRouteChildren)
+    ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
