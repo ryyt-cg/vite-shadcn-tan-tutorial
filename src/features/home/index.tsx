@@ -3,7 +3,7 @@ import {ThemeSwitch} from "@/components/theme-switch.tsx";
 const Home = () => {
   return (
       <div>
-          <ThemeSwitch/>
+        <ThemeSwitch/>
         Home Page
       </div>
   );
