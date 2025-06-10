@@ -48,7 +48,9 @@ Edit tsconfig.json file
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   }
 }
@@ -83,7 +85,7 @@ Edit vite.config.ts
 import path from "path"
 import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import {defineConfig} from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -99,13 +101,13 @@ export default defineConfig({
 Edit src/app.tsx
 
 ```tsx
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-    </div>
+      <div className="flex min-h-svh flex-col items-center justify-center">
+        <Button>Click me</Button>
+      </div>
   )
 }
 
@@ -135,15 +137,15 @@ Configure the Vite Plugin
 
 ```tsx
 // vite.config.ts
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import {TanStackRouterVite} from '@tanstack/router-plugin/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     // Please make sure that '@tanstack/router-plugin' is passed before '@vitejs/plugin-react'
-    TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
+    TanStackRouterVite({target: 'react', autoCodeSplitting: true}),
     react(),
     // ...,
   ],
@@ -194,11 +196,11 @@ src/features/about/index.tsx
 
 ```tsx
 const About = () => {
-    return (
-        <div>
-            About Page
-        </div>
-    );
+  return (
+      <div>
+        About Page
+      </div>
+  );
 };
 
 export default About;
@@ -208,11 +210,11 @@ src/features/home/index.tsx
 
 ```tsx
 const Home = () => {
-    return (
-        <div>
-            Home Page
-        </div>
-    );
+  return (
+      <div>
+        Home Page
+      </div>
+  );
 };
 
 export default Home;
@@ -221,24 +223,24 @@ export default Home;
 src/routes/__root.tsx
 
 ```tsx
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import {createRootRoute, Outlet} from '@tanstack/react-router'
+import {TanStackRouterDevtools} from '@tanstack/react-router-devtools'
 import {Toaster} from "sonner";
 
 export const Route = createRootRoute({
-    component: () => (
-        <>
-            {/*<NavigationProgress />*/}
-            <Outlet />
-            <Toaster duration={50000} />
-            {import.meta.env.MODE === 'development' && (
-                <>
-                    {/*<ReactQueryDevtools buttonPosition='bottom-left' />*/}
-                    <TanStackRouterDevtools position='bottom-right' />
-                </>
-            )}
-        </>
-    ),
+  component: () => (
+      <>
+        {/*<NavigationProgress />*/}
+        <Outlet/>
+        <Toaster duration={50000}/>
+        {import.meta.env.MODE === 'development' && (
+            <>
+              {/*<ReactQueryDevtools buttonPosition='bottom-left' />*/}
+              <TanStackRouterDevtools position='bottom-right'/>
+            </>
+        )}
+      </>
+  ),
 })
 ```
 
@@ -249,17 +251,17 @@ import {createFileRoute, Outlet} from "@tanstack/react-router";
 // import Layout from "@/components/layout/layout.tsx";
 
 export const Route = createFileRoute('/(authenticated)')({
-    component: RouteComponent,
+  component: RouteComponent,
 })
 
 function RouteComponent() {
-    return (
-        <>
-            {/*<Layout>*/}
-            <Outlet />
-            {/*</Layout>*/}
-        </>
-    );
+  return (
+      <>
+        {/*<Layout>*/}
+        <Outlet/>
+        {/*</Layout>*/}
+      </>
+  );
 }
 ````
 
@@ -277,24 +279,24 @@ export const Route = createFileRoute('/(authenticated)/')({
 src/routes/(authenticated)/about/index.tsx`
 
 ```tsx
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
 import About from '@/features/about'
 
 export const Route = createFileRoute('/(authenticated)/about/')({
-    component: About,
+  component: About,
 })
 ````
 
 Replace all content in app.tsx with the following:
 
 ```tsx
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import {RouterProvider, createRouter} from '@tanstack/react-router'
 
 // Import the generated route tree
-import { routeTree } from '@/routeTree.gen'
+import {routeTree} from '@/routeTree.gen'
 
 // Create a new router instance
-const router = createRouter({ routeTree })
+const router = createRouter({routeTree})
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -305,9 +307,9 @@ declare module '@tanstack/react-router' {
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+      <>
+        <RouterProvider router={router}/>
+      </>
   )
 }
 
@@ -320,12 +322,13 @@ http://localhost:5173/about<br/>
 You would see the home page and about page.
 
 ## Lesson 3b: Add Dark Mode Toggle
+
 * Follow the [Shadcn/UI documentation](https://ui.shadcn.com/docs/installation/dark-mode) to add dark mode support.
 * Select Vite as the build tool.
 * Create a theme provider: components/theme-provider.tsx
 
 ```tsx
-import { createContext, useContext, useEffect, useState } from "react"
+import {createContext, useContext, useEffect, useState} from "react"
 
 type Theme = "dark" | "light" | "system"
 
@@ -348,13 +351,13 @@ const initialState: ThemeProviderState = {
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
-  children,
-  defaultTheme = "system",
-  storageKey = "vite-ui-theme",
-  ...props
-}: ThemeProviderProps) {
+                                children,
+                                defaultTheme = "system",
+                                storageKey = "vite-ui-theme",
+                                ...props
+                              }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+      () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   )
 
   useEffect(() => {
@@ -364,9 +367,9 @@ export function ThemeProvider({
 
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
+          .matches
+          ? "dark"
+          : "light"
 
       root.classList.add(systemTheme)
       return
@@ -384,9 +387,9 @@ export function ThemeProvider({
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
-      {children}
-    </ThemeProviderContext.Provider>
+      <ThemeProviderContext.Provider {...props} value={value}>
+        {children}
+      </ThemeProviderContext.Provider>
   )
 }
 
@@ -403,13 +406,13 @@ export const useTheme = () => {
 * Wrap your root layout: app.tsx or main.tsx
 
 ```tsx
-import { ThemeProvider } from "@/components/theme-provider"
+import {ThemeProvider} from "@/components/theme-provider"
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {children}
-    </ThemeProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {children}
+      </ThemeProvider>
   )
 }
 
@@ -419,46 +422,48 @@ export default App
 * Add a mode toggle: components/mode-toggle.tsx
 
 ```tsx
-import { Moon, Sun } from "lucide-react"
+import {Moon, Sun} from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/components/theme-provider"
+import {useTheme} from "@/components/theme-provider"
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const {setTheme} = useTheme()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"/>
+            <Moon
+                className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"/>
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setTheme("light")}>
+            Light
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("dark")}>
+            Dark
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("system")}>
+            System
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
   )
 }
 ```
 
-*  Add shadcn/ui dropdown menu components: components/ui/dropdown-menu.tsx
+* Add shadcn/ui dropdown menu components: components/ui/dropdown-menu.tsx
+
 ```bash
 pnpm dlx shadcn@latest add dropdown-menu
 ```
