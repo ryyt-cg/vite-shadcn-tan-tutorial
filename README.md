@@ -17,8 +17,7 @@ cd vite-shadcn-tan-tutorial
 pnpm install
 pnpm run dev
 ```
-
-## Lesson 2: [Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
+[Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
 
 ```bash
 pnpm add tailwindcss @tailwindcss/vite
@@ -106,5 +105,5 @@ Run the development server
 ```bash
 pnpm run dev
 ```
-You should see a button styled with Shadcn/UI.
+You should see a "Click me" button styled with Shadcn/UI.
 ![shadcb-button.png](docs/shadcb-button.png)
