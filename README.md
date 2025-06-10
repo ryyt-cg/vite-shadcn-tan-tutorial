@@ -290,3 +290,190 @@ Try<br/>
 http://localhost:5173<br/>
 http://localhost:5173/about<br/>
 You would see the home page and about page.
+
+
+## Lesson 3: Add Dark Mode Support
+
+* Create a theme provider: context/theme-context.tsx
+```tsx
+import { createContext, useContext, useEffect, useState } from 'react'
+
+type Theme = 'dark' | 'light' | 'system'
+
+type ThemeProviderProps = {
+    children: React.ReactNode
+    defaultTheme?: Theme
+    storageKey?: string
+}
+
+type ThemeProviderState = {
+    theme: Theme
+    setTheme: (theme: Theme) => void
+}
+
+const initialState: ThemeProviderState = {
+    theme: 'system',
+    setTheme: () => null,
+}
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+
+export function ThemeProvider({
+                                  children,
+                                  defaultTheme = 'system',
+                                  storageKey = 'vite-ui-theme',
+                                  ...props
+                              }: ThemeProviderProps) {
+    const [theme, _setTheme] = useState<Theme>(
+        () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    )
+
+    useEffect(() => {
+        const root = window.document.documentElement
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+        const applyTheme = (theme: Theme) => {
+            root.classList.remove('light', 'dark') // Remove existing theme classes
+            const systemTheme = mediaQuery.matches ? 'dark' : 'light'
+            const effectiveTheme = theme === 'system' ? systemTheme : theme
+            root.classList.add(effectiveTheme) // Add the new theme class
+        }
+
+        const handleChange = () => {
+            if (theme === 'system') {
+                applyTheme('system')
+            }
+        }
+
+        applyTheme(theme)
+
+        mediaQuery.addEventListener('change', handleChange)
+
+        return () => mediaQuery.removeEventListener('change', handleChange)
+    }, [theme])
+
+    const setTheme = (theme: Theme) => {
+        localStorage.setItem(storageKey, theme)
+        _setTheme(theme)
+    }
+
+    const value = {
+        theme,
+        setTheme,
+    }
+
+    return (
+        <ThemeProviderContext.Provider {...props} value={value}>
+            {children}
+        </ThemeProviderContext.Provider>
+    )
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useTheme = () => {
+    const context = useContext(ThemeProviderContext)
+
+    if (context === undefined)
+        throw new Error('useTheme must be used within a ThemeProvider')
+
+    return context
+}
+```
+
+* Wrap your root layout: app.tsx/main.tsx - with the ThemeProvider
+```tsx
+import { ThemeProvider } from "@/components/theme-provider"
+
+function App() {
+    return (
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            {children}
+        </ThemeProvider>
+    )
+}
+
+export default App
+```
+
+* Add a mode toogle: components/theme-toggle.tsx
+```tsx
+import { useEffect } from 'react'
+import { Moon, Sun, CheckIcon } from "lucide-react"
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/context/theme-context'
+import { Button } from '@/components/ui/button'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
+export function ThemeSwitch() {
+    const { theme, setTheme } = useTheme()
+
+    /* Update theme-color meta tag
+     * when theme is updated */
+    useEffect(() => {
+        const themeColor = theme === 'dark' ? '#020817' : '#fff'
+        const metaThemeColor = document.querySelector("meta[name='theme-color']")
+        if (metaThemeColor) metaThemeColor.setAttribute('content', themeColor)
+    }, [theme])
+
+    return (
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+                <Button variant='ghost' size='icon' className='scale-95 rounded-full'>
+                    <Sun className='size-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90' />
+                    <Moon className='absolute size-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0' />
+                    <span className='sr-only'>Toggle theme</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+                <DropdownMenuItem onClick={() => setTheme('light')}>
+                    Light{' '}
+                    <CheckIcon
+                        size={14}
+                        className={cn('ml-auto', theme !== 'light' && 'hidden')}
+                    />
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                    Dark
+                    <CheckIcon
+                        size={14}
+                        className={cn('ml-auto', theme !== 'dark' && 'hidden')}
+                    />
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('system')}>
+                    System
+                    <CheckIcon
+                        size={14}
+                        className={cn('ml-auto', theme !== 'system' && 'hidden')}
+                    />
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+```
+
+* Add dropdown-menu component to the project
+```bash
+pnpm dlx shadcn@latest add dropdown-menu
+```
+
+* Add ThemeSwitch component to your Home page - features/home/index.tsx
+```tsx
+import {ThemeSwitch} from "@/components/theme-switch.tsx";
+
+const Home = () => {
+  return (
+      <div>
+          <ThemeSwitch/>
+        Home Page
+      </div>
+  );
+};
+
+export default Home;
+```
