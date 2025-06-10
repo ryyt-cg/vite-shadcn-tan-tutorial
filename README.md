@@ -17,8 +17,7 @@ cd vite-shadcn-tan-tutorial
 pnpm install
 pnpm run dev
 ```
-
-## Lesson 2: [Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
+[Adding Shadcn/UI](https://ui.shadcn.com/docs/installation/vite)
 
 ```bash
 pnpm add tailwindcss @tailwindcss/vite
@@ -109,7 +108,8 @@ pnpm run dev
 You should see a button styled with Shadcn/UI.
 ![shadcb-button.png](docs/shadcb-button.png)
 
-## Lesson 3: [Adding TanStack Router](https://tanstack.com/router/latest)
+
+## Lesson 2: [Adding TanStack Router](https://tanstack.com/router/latest)
 Install TanStack Router
 ```bash
 pnpm add @tanstack/react-router
